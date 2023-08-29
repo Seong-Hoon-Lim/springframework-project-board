@@ -2,18 +2,16 @@ package com.example.springframeworkprojectboard.domain;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Builder
 @ToString
-@NoArgsConstructor
+@Builder
 public class Member {
     private long id;
-    private String userId;
+    private String memberId;
     private String password;
     private String name;
     private String gender;
@@ -25,9 +23,4 @@ public class Member {
     private String addr2;   //상세주소
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    public Member(long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 }

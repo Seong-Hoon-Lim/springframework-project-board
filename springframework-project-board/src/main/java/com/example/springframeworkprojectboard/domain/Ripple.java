@@ -1,7 +1,14 @@
 package com.example.springframeworkprojectboard.domain;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
+
 import java.time.LocalDateTime;
 
+@Getter
+@ToString
+@Builder
 public class Ripple {
     private long id;
     private Board board;
