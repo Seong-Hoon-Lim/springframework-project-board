@@ -1,0 +1,1 @@
+document 디렉토리 생성위한 dummy 파일
