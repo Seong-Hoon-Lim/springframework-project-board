@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 스프링 MVC 설정을 어노테이션 기반으로 처리
+         스프링 MVC 의 여러 객체들을 자동으로 스프링의 빈으로 등록하게 하는 기능-->
+    <mvc:annotation-driven></mvc:annotation-driven>
+
+    <!-- 이미지나 html 파일과 같이 정적인 파일의 경로를 지정.
+         /resources 경로로 들어오는 요청은 정적 파일을 요구하는 것으로 간주
+         스프링 MVC 에서 별도로 처리 하지 않음 -->
+    <mvc:resources mapping="/resources/**" location="/resources/"></mvc:resources>
+
+    <!-- conversionService 라는 bean 을 등록한 후 스프링 MVC 를 처리할 때 mvc:annotation-driven 에서
+         이것을 이용한다는 것을 지정.-->
+    <mvc:annotation-driven conversion-service="conversionService" />
+
+    <!-- 스프링 MVC 에서 제공하는 뷰(view)를 어떻게 결정하는지에 대한 템플릿 엔진 설정.
+         view 의 파일명은 조합이 '/WEB-INF/view/파일명.jsp' 같은 형식으로 만들어짐 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/view/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <!-- Formatter를 servlet.context.xml 에 적용
+         FormattingConversionServiceFactoryBean 객체를 스프링의 빈으로 등록
+         LocalDateFormatter 포맷 관련 클래스 지정.-->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="formatters">
+            <set>
+                <bean class="com.example.springframeworkprojectboard.controller.formatter.LocalDateFormatter" />
+                <bean class="com.example.springframeworkprojectboard.controller.formatter.CheckboxFormatter" />
+            </set>
+        </property>
+    </bean>
+
+    <context:component-scan base-package="com.example.springframeworkprojectboard.controller" />
+
+
+</beans>
