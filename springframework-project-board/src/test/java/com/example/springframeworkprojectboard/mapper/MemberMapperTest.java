@@ -28,7 +28,7 @@ class MemberMapperTest {
     void givenMember_whenSavingMember_thenMember() throws SQLException, ClassNotFoundException {
         //Given
         Member member = Member.builder()
-                .memberId("hooney")
+                .account("hooney")
                 .password("hooney1234")
                 .name("hooney")
                 .gender("남")
