@@ -2,7 +2,7 @@ USE spring_board;
 CREATE TABLE spring_board.member
 (
     `id`         BIGINT       NOT NULL AUTO_INCREMENT,
-    `memberId`   VARCHAR(50)  NOT NULL,
+    `account`    VARCHAR(50)  NOT NULL,
     `password`   VARCHAR(16)  NOT NULL,
     `name`       VARCHAR(50)  NOT NULL,
     `gender`     VARCHAR(4)   NOT NULL,
