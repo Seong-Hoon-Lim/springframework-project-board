@@ -6,8 +6,8 @@
 <mapper namespace="com.example.springframeworkprojectboard.mapper.MemberMapper">
 
     <insert id="save">
-        insert into spring_board.member (memberId, password, name, gender, birth, email, phone, zipcode, addr1, addr2, created_at)
-        values (#{memberId}, #{password}, #{name}, #{gender}, #{birth}, #{email}, #{phone}, #{zipcode}, #{addr1}, #{addr2}, now())
+        insert into spring_board.member (`account`, `password`, `name`, `gender`, `birth`, `email`, `phone`, `zipcode`, `addr1`, `addr2`, `created_at`)
+        values (#{account}, #{password}, #{name}, #{gender}, #{birth}, #{email}, #{phone}, #{zipcode}, #{addr1}, #{addr2}, now())
     </insert>
 
 </mapper>

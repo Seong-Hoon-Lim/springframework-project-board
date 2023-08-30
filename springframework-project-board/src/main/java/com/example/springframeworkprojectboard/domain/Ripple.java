@@ -11,8 +11,9 @@ import java.time.LocalDateTime;
 @Builder
 public class Ripple {
     private long id;
-    private Board board;
-    private Member member;
+    private long boardId;
+    private long memberId;
+    private String memberName;
     private String content;
     private String ip;
     private LocalDateTime createdAt;
