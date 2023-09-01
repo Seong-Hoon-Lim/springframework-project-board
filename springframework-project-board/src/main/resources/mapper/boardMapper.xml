@@ -10,9 +10,9 @@
         values (#{memberId}, #{memberName}, #{title}, #{content}, 0, #{ip}, 0, #{fileName}, #{fileSize}, now())
     </insert>
 
-    <select id="findList" resultType="com.example.springframeworkprojectboard.domain.Board">
-        select * from spring_board.board order by `id` desc
-    </select>
+<!--    <select id="findList" resultType="com.example.springframeworkprojectboard.domain.Board">-->
+<!--        select * from spring_board.board order by `id` desc-->
+<!--    </select>-->
 
     <!-- 검색 기능을 처리할 쿼리 -->
     <sql id="search">
