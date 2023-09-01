@@ -1,6 +1,7 @@
 package com.example.springframeworkprojectboard.mapper;
 
 import com.example.springframeworkprojectboard.domain.Board;
+import com.example.springframeworkprojectboard.dto.PageRequestDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.sql.SQLException;
@@ -26,12 +27,40 @@ public interface BoardMapper {
     List<Board> findList() throws SQLException, ClassNotFoundException;
 
     /**
+     * 페이징 및 검색 처리가 포함 된
+     * 게시판 목록 조회
+     * @param requestDto
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    List<Board> findAllList(PageRequestDto requestDto) throws SQLException, ClassNotFoundException;
+
+    /**
+     * 게시판의 페이지 번호들을 구성하기 위한
+     * 전체 데이터 수 조회
+     * @param requestDto
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    int findListCount(PageRequestDto requestDto) throws SQLException, ClassNotFoundException;
+
+    /**
      * 게시글 조회
      * @return
      * @throws SQLException
      * @throws ClassNotFoundException
      */
     Board findBoardByBoardId(long boardId) throws SQLException, ClassNotFoundException;
+
+    /**
+     * 게시글 조회수 증가
+     * @param boardId
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    void updateBoardHitByBoardId(long boardId) throws SQLException, ClassNotFoundException;
 
     /**
      * 게시글 수정
@@ -46,7 +75,5 @@ public interface BoardMapper {
      * @throws ClassNotFoundException
      */
     void deleteBoardByBoardId(long boardId) throws SQLException, ClassNotFoundException;
-
-
 
 }
