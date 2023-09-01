@@ -1,14 +1,14 @@
 package com.example.springframeworkprojectboard.dto;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Data
 @ToString
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BoardDto {
     private long id;
     private long memberId;
