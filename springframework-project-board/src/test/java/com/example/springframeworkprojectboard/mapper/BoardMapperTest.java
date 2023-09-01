@@ -1,6 +1,7 @@
 package com.example.springframeworkprojectboard.mapper;
 
 import com.example.springframeworkprojectboard.domain.Board;
+import com.example.springframeworkprojectboard.dto.PageRequestDto;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,12 +33,12 @@ class BoardMapperTest {
         Board board = Board.builder()
                 .memberId(1)
                 .memberName("hooney")
-                .title("Lorem Ipsum2")
-                .content("Lorem Ipsum2 is simply dummy text of the printing and typesetting industry.")
+                .title("Lorem Ipsum")
+                .content("Lorem Ipsum is simply dummy text of the printing and typesetting industry.")
                 .hit(0)
-                .ip("0.0.0.0")
+                .ip("127.0.0.1")
                 .rippleCnt(0)
-                .fileName("dummy2.png")
+                .fileName("dummy.png")
                 .fileSize(0)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -126,6 +128,26 @@ class BoardMapperTest {
         Board deletedBoard = boardMapper.findBoardByBoardId(boardId);
         assertNull(deletedBoard, "Board should be null after deletion");
 
+    }
+
+    @DisplayName("Mapper 테스트 - (페이징 및 검색 기능 추가)게시판 목록 조회 테스트. 조회 되면 테스트 성공")
+    @Test
+    void givenBoardList_whenFindingBoardAllList_thenReturnsBoardList() throws SQLException, ClassNotFoundException {
+        //Given
+        PageRequestDto requestDto = PageRequestDto.builder()
+                .page(2)
+                .size(10)
+                .types(new String[]{"t", "w"})
+                .keyword("hooney")
+                .from(LocalDateTime.of(2023, 9, 1, 0, 0, 0))
+                .to(LocalDateTime.of(2023, 9, 2, 23, 59, 59))
+                .build();
+
+        //When
+        List<Board> boardList = boardMapper.findAllList(requestDto);
+
+        //Then
+        assertFalse(boardList.isEmpty(), "게시판 목록이 비어 있습니다.");
     }
 
 }

@@ -14,9 +14,45 @@
         select * from spring_board.board order by `id` desc
     </select>
 
+    <!-- 검색 기능을 처리할 쿼리 -->
+    <sql id="search">
+        <where>
+            <if test="types != null and types.length > 0">
+                <foreach collection="types" item="type" open="(" close=")" separator="OR">
+                    <if test="type == 't'.toString()">
+                        `title` like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test="type == 'w'.toString()">
+                        `member_name` like concat('%', #{keyword}, '%')
+                    </if>
+                </foreach>
+            </if>
+            <if test="from != null and to != null">
+                <trim prefix="and">
+                    `created_at` between #{from} and #{to}
+                </trim>
+            </if>
+        </where>
+    </sql>
+
+    <select id="findAllList" resultType="com.example.springframeworkprojectboard.domain.Board">
+        select * from spring_board.board
+        <include refid="search"></include>
+        order by `id` desc limit #{skip}, #{size}
+    </select>
+
+    <select id="findListCount" resultType="int">
+        select count(`id`) from spring_board.board
+        <include refid="search"></include>
+    </select>
+
     <select id="findBoardByBoardId" resultType="com.example.springframeworkprojectboard.domain.Board">
         select * from spring_board.board where `id` = #{id}
     </select>
+
+    <update id="updateBoardHitByBoardId">
+        update spring_board.board set `hit` = `hit` + 1 where `id` = #{id}
+    </update>
 
     <update id="update">
         update spring_board.board set `title` = #{title}, `content` = #{content}, `ip` = #{ip}, `file_name` = #{fileName}, `file_size` = #{fileSize}, `updated_at` = now() where `id` = #{id}
