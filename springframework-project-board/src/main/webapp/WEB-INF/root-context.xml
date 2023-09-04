@@ -12,11 +12,10 @@
 
     <context:component-scan base-package="com.example.springframeworkprojectboard" />
 
-    <!-- ModelMapperConfig 를 스프링 빈으로 인식할 수 있도록 추가 -->
-    <context:component-scan base-package="com.example.springframeworkprojectboard.config" />
-
-    <!-- service 패키지 bean 등록 -->
-    <context:component-scan base-package="com.example.springframeworkprojectboard.service" />
+    <!-- 스프링 빈으로 인식할 수 있도록 추가 -->
+    <context:component-scan base-package=
+                                    "com.example.springframeworkprojectboard.config,
+                                     com.example.springframeworkprojectboard.service" />
 
     <!-- controller 패키지 bean 등록 -->
     <context:component-scan base-package="com.example.springframeworkprojectboard.controller" />
@@ -47,7 +46,5 @@
     </bean>
 
     <mybatis:scan base-package="com.example.springframeworkprojectboard.mapper"></mybatis:scan>
-
-
 
 </beans>

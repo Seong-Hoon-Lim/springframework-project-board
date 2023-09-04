@@ -8,8 +8,16 @@ import com.example.springframeworkprojectboard.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +31,17 @@ public class BoardServiceImpl implements BoardService {
     private final BoardMapper boardMapper;
 
     @Override
-    public void registerBoard(BoardDto boardDto) throws SQLException, ClassNotFoundException {
+    public void registerBoard(BoardDto boardDto, MultipartFile file) throws Exception {
+        // 파일을 디스크에 저장
+        if (file != null && !file.isEmpty()) {
+            String fileName = file.getOriginalFilename();
+            File uploadDir = new File("C:\\upload"); // 저장할 디렉터리
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+            File uploadFile = new File(uploadDir, fileName);
+            file.transferTo(uploadFile);
+        }
         Board board = mapper.map(boardDto, Board.class);
         log.info("BoardService: registerBoard() - registerBoard: {}", board);
         boardMapper.save(board);
@@ -43,7 +61,7 @@ public class BoardServiceImpl implements BoardService {
                 .requestDto(requestDto)
                 .build();
 
-        log.info("BoardService: getBoardList() - {}", responseDto);
+//        log.info("BoardService: getBoardList() - {}", responseDto);
         return responseDto;
     }
 
@@ -56,7 +74,17 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public void modifyBoard(BoardDto boardDto) throws SQLException, ClassNotFoundException {
+    public void modifyBoard(BoardDto boardDto, MultipartFile file) throws Exception {
+        // 파일을 디스크에 저장
+        if (file != null && !file.isEmpty()) {
+            String fileName = file.getOriginalFilename();
+            File uploadDir = new File("C:\\upload"); // 저장할 디렉터리
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+            File uploadFile = new File(uploadDir, fileName);
+            file.transferTo(uploadFile);
+        }
         Board board = mapper.map(boardDto, Board.class);
         log.info("BoardService: modifyBoard() - modifiedBoard: {}", board);
         boardMapper.update(board);
