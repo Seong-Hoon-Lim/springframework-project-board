@@ -1,14 +1,14 @@
 package com.example.springframeworkprojectboard.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @ToString
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member {
     private long id;
     private String account;
