@@ -18,7 +18,7 @@
          /resources 경로로 들어오는 요청은 정적 파일을 요구하는 것으로 간주
          스프링 MVC 에서 별도로 처리 하지 않음 -->
     <mvc:resources mapping="/resources/**" location="/resources/"></mvc:resources>
-
+    <mvc:resources mapping="/upload/**" location="file:///C:/upload/"/>
     <!-- conversionService 라는 bean 을 등록한 후 스프링 MVC 를 처리할 때 mvc:annotation-driven 에서
          이것을 이용한다는 것을 지정.-->
     <mvc:annotation-driven conversion-service="conversionService" />
@@ -36,13 +36,20 @@
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="formatters">
             <set>
-                <bean class="com.example.springframeworkprojectboard.controller.formatter.LocalDateFormatter" />
-                <bean class="com.example.springframeworkprojectboard.controller.formatter.CheckboxFormatter" />
+                <bean class="com.example.springframeworkprojectboard.config.formatter.LocalDateTimeFormatter" />
             </set>
         </property>
     </bean>
 
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 설정할 속성들 -->
+        <property name="maxUploadSize" value="100000"/> <!-- 예: 업로드 최대 사이즈 설정 -->
+    </bean>
+
+    <bean class="com.example.springframeworkprojectboard.config.WebConfig" />
+
     <context:component-scan base-package="com.example.springframeworkprojectboard.controller" />
 
+    <context:component-scan base-package="com.example.springframeworkprojectboard.config" />
 
 </beans>

@@ -6,7 +6,7 @@
 <mapper namespace="com.example.springframeworkprojectboard.mapper.BoardMapper">
 
     <insert id="save">
-        insert into spring_board.board (`member_id`, `member_name`, `title`, `content`, `hit`, `ip`, `ripple_count`, `file_name`, `file_size`, `created_at`)
+        insert into spring_board.board (`memberId`, `memberName`, `title`, `content`, `hit`, `ip`, `rippleCnt`, `fileName`, `fileSize`, `createdAt`)
         values (#{memberId}, #{memberName}, #{title}, #{content}, 0, #{ip}, 0, #{fileName}, #{fileSize}, now())
     </insert>
 
@@ -23,13 +23,13 @@
                         `title` like concat('%', #{keyword}, '%')
                     </if>
                     <if test="type == 'w'.toString()">
-                        `member_name` like concat('%', #{keyword}, '%')
+                        `memberName` like concat('%', #{keyword}, '%')
                     </if>
                 </foreach>
             </if>
             <if test="from != null and to != null">
                 <trim prefix="and">
-                    `created_at` between #{from} and #{to}
+                    `createdAt` between #{from} and #{to}
                 </trim>
             </if>
         </where>
@@ -55,7 +55,7 @@
     </update>
 
     <update id="update">
-        update spring_board.board set `title` = #{title}, `content` = #{content}, `ip` = #{ip}, `file_name` = #{fileName}, `file_size` = #{fileSize}, `updated_at` = now() where `id` = #{id}
+        update spring_board.board set `title` = #{title}, `content` = #{content}, `ip` = #{ip}, `fileName` = #{fileName}, `fileSize` = #{fileSize}, `updatedAt` = now() where `id` = #{id}
     </update>
 
     <delete id="deleteBoardByBoardId">
