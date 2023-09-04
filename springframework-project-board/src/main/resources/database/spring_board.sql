@@ -1,19 +1,19 @@
 USE spring_board;
 CREATE TABLE spring_board.member
 (
-    `id`         BIGINT       NOT NULL AUTO_INCREMENT,
-    `account`    VARCHAR(50)  NOT NULL,
-    `password`   VARCHAR(16)  NOT NULL,
-    `name`       VARCHAR(50)  NOT NULL,
-    `gender`     VARCHAR(4)   NOT NULL,
-    `birth`      VARCHAR(10)  NOT NULL,
-    `email`      VARCHAR(50)  NOT NULL,
-    `phone`      VARCHAR(13)  NOT NULL,
-    `zipcode`    VARCHAR(5)   NOT NULL,
-    `addr1`      VARCHAR(100) NOT NULL,
-    `addr2`      VARCHAR(100) NOT NULL,
-    `created_at` DATETIME     NOT NULL DEFAULT now(),
-    `updated_at` DATETIME     NULL     DEFAULT NULL,
+    `id`        BIGINT       NOT NULL AUTO_INCREMENT,
+    `account`   VARCHAR(50)  NOT NULL,
+    `password`  VARCHAR(16)  NOT NULL,
+    `name`      VARCHAR(50)  NOT NULL,
+    `gender`    VARCHAR(4)   NOT NULL,
+    `birth`     VARCHAR(10)  NOT NULL,
+    `email`     VARCHAR(50)  NOT NULL,
+    `phone`     VARCHAR(13)  NOT NULL,
+    `zipcode`   VARCHAR(5)   NOT NULL,
+    `addr1`     VARCHAR(100) NOT NULL,
+    `addr2`     VARCHAR(100) NOT NULL,
+    `createdAt` DATETIME     NOT NULL DEFAULT now(),
+    `updatedAt` DATETIME     NULL     DEFAULT NULL,
     PRIMARY KEY (`id`) USING BTREE
 );
 
