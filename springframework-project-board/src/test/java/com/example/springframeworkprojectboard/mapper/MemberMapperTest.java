@@ -25,19 +25,19 @@ class MemberMapperTest {
 
     @DisplayName("Mapper 테스트 - 회원 등록 테스트. 생성 완료 되면 테스트 성공")
     @Test
-    void givenMember_whenSavingMember_thenMember() throws SQLException, ClassNotFoundException {
+    void givenMember_whenSavingMember_thenReturnsMember() throws SQLException, ClassNotFoundException {
         //Given
         Member member = Member.builder()
-                .account("hooney")
-                .password("hooney1234")
-                .name("hooney")
+                .account("test00")
+                .password("test1234")
+                .name("가길동")
                 .gender("남")
-                .birth("19900101")
-                .email("hooney@gmail.com")
-                .phone("01012341111")
+                .birth("19900103")
+                .email("nagildong@gmail.com")
+                .phone("01012341113")
                 .zipcode("34005")
                 .addr1("대전광역시 유성구 대덕대로1111번길 1-8")
-                .addr2("가나타운 1동 1호")
+                .addr2("가나타운 1동 3호")
                 .createdAt(LocalDateTime.now())
                 .build();
         //When
@@ -46,4 +46,85 @@ class MemberMapperTest {
         //Then
         assertNotNull(member);
     }
+
+    @DisplayName("Mapper 테스트 - 회원 계정 중복 테스트. 중복 되면 true 테스트 성공")
+    @Test
+    void givenAccount_whenIsExistingAccount_thenReturnsTrue() throws SQLException, ClassNotFoundException {
+        //Given
+        String account = "test";
+
+        //When
+        boolean isExistedAccount = memberMapper.isExistByAccount(account);
+
+        //Then
+        assertTrue(isExistedAccount);
+    }
+
+    @DisplayName("Mapper 테스트 - 고유번호로 회원 조회 테스트. 조회 되면 테스트 성공")
+    @Test
+    void givenMemberId_whenFindingMember_thenReturnsMember() throws SQLException, ClassNotFoundException {
+        //Given
+        long memberId = 2;
+
+        //When
+        Member findedMember = memberMapper.findMemberById(memberId);
+
+        //Then
+        assertNotNull(findedMember);
+    }
+
+    @DisplayName("Mapper 테스트 - 고유번호로 회원 조회 테스트. 조회 되면 테스트 성공")
+    @Test
+    void givenAccount_whenFindingMember_thenReturnsMember() throws SQLException, ClassNotFoundException {
+        //Given
+        String account = "test0";
+
+        //When
+        Member findedMember = memberMapper.findMemberByAccount(account);
+
+        //Then
+        assertNotNull(findedMember);
+    }
+
+    @DisplayName("Mapper 테스트 - 회원 수정 테스트. 수정 되면 이전 데이터와 비교 테스트 실패")
+    @Test
+    void givenMember_whenUpdatingMember_thenReturnsMember() throws SQLException, ClassNotFoundException {
+        //Given
+        long memberId = 3;
+        Member originalMember = memberMapper.findMemberById(memberId);
+        Member updatedMember = Member.builder()
+                .account("test1")
+                .password("test1234")
+                .name("nagilnyeo")
+                .gender("여")
+                .birth("19900103")
+                .email("nagilnyeo@gmail.com")
+                .phone("01012341113")
+                .zipcode("34005")
+                .addr1("대전광역시 유성구 대덕대로1111번길 1-8")
+                .addr2("가나타운 1동 3호")
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        //When
+        memberMapper.update(updatedMember);
+
+        //Then
+        assertEquals(originalMember, updatedMember);
+    }
+
+    @DisplayName("Mapper 테스트 - 회원 삭제 테스트. 이전 회원이 있는지 확인 없으면 테스트 성공")
+    @Test
+    void givenMemberId_whenDeletingMember_thenReturnsNoting() throws SQLException, ClassNotFoundException {
+        //Given
+        long memberId = 4;
+
+        //When
+        memberMapper.deleteMemberByMemberId(memberId);
+        Member deletedMember = memberMapper.findMemberById(memberId);
+
+        //Then
+        assertNull(deletedMember);
+    }
+
 }

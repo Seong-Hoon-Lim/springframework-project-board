@@ -5,9 +5,34 @@
 
 <mapper namespace="com.example.springframeworkprojectboard.mapper.MemberMapper">
 
+
+    <select id="isExistByAccount" resultType="boolean">
+        select count(*) > 0 from spring_board.member where `account` = #{account}
+    </select>
+
     <insert id="save">
-        insert into spring_board.member (`account`, `password`, `name`, `gender`, `birth`, `email`, `phone`, `zipcode`, `addr1`, `addr2`, `created_at`)
+        insert into spring_board.member (`account`, `password`, `name`, `gender`, `birth`, `email`, `phone`, `zipcode`, `addr1`, `addr2`, `createdAt`)
         values (#{account}, #{password}, #{name}, #{gender}, #{birth}, #{email}, #{phone}, #{zipcode}, #{addr1}, #{addr2}, now())
     </insert>
+
+    <select id="findMemberById" resultType="com.example.springframeworkprojectboard.domain.Member">
+        select * from spring_board.member where `id` = #{id}
+    </select>
+
+    <select id="findMemberByAccount" resultType="com.example.springframeworkprojectboard.domain.Member">
+        select * from spring_board.member where `account` = #{account}
+    </select>
+
+    <update id="update">
+        update spring_board.member
+        set `password` = #{password}, `name` = #{name}, `gender` = #{gender}, `birth` = #{birth},
+            `email` = #{email}, `phone` = #{phone}, `zipcode` = #{zipcode}, `addr1` = #{addr1},
+            `addr2` = #{addr2}, `updatedAt` = now()
+        where `id` = #{id}
+    </update>
+
+    <delete id="deleteMemberByMemberId">
+        delete from spring_board.member where `id` = #{id}
+    </delete>
 
 </mapper>
