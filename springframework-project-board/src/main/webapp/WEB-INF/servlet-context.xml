@@ -36,8 +36,8 @@
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="formatters">
             <set>
-                <bean class="com.example.springframeworkprojectboard.controller.formatter.LocalDateFormatter" />
-                <bean class="com.example.springframeworkprojectboard.controller.formatter.CheckboxFormatter" />
+                <bean class="com.example.springframeworkprojectboard.config.formatter.LocalDateTimeFormatter" />
+<!--                <bean class="com.example.springframeworkprojectboard.controller.formatter.CheckboxFormatter" />-->
             </set>
         </property>
     </bean>
