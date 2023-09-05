@@ -1,15 +1,15 @@
-package com.example.springframeworkprojectboard.domain;
+package com.example.springframeworkprojectboard.dto;
 
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Getter
+@Data
 @ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Member {
+public class MemberDto {
     private long id;
     private String account;
     private String password;
