@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/member")
@@ -81,6 +82,7 @@ public class MemberController {
     @PostMapping("/member_modify")
     public String modifyMember(@ModelAttribute MemberDto memberDto,
                                HttpServletRequest req,
+                               Long memberId,
                                Model model) {
         log.info("MemberController: POST - modifyMember()");
         String year = req.getParameter("birthyy");
@@ -94,14 +96,14 @@ public class MemberController {
 
         model.addAttribute("member", memberDto);
         try {
-            if (!memberService.hasDuplicateMember(memberDto.getAccount())) {
+            if (Objects.equals(memberId, memberDto.getId())) {
                 memberService.modifyMember(memberDto);
+                return "redirect:/board/board_list";
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/member/member_view";
-
+        return "redirect:/member/member_modify?memberId=" + memberDto.getId();
     }
 
     @PostMapping("/member_remove")
@@ -116,4 +118,35 @@ public class MemberController {
         }
         return "member/member_modify";
     }
+
+    @GetMapping("/login")
+    public String showLoginForm() {
+        return "member/login";
+    }
+
+    @PostMapping("/login")
+    public String login(HttpServletRequest req, Model model) {
+        log.info("MemberController: POST - login()");
+        try {
+            String account = req.getParameter("account");
+            MemberDto memberDto = memberService.getMember(account);
+            String name = memberDto.getName();
+            if ((String) req.getSession().getAttribute("sessionMemberAccount") == null) {
+                req.getSession().setAttribute("sessionMemberAccount", account);
+                req.getSession().setAttribute("sessionMemberName", name);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "member/login";
+        }
+        return "redirect:/board/board_list";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest req) {
+        req.getSession().invalidate();
+        return "redirect:/board/board_list";
+    }
+
 }
