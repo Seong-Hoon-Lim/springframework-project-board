@@ -6,8 +6,8 @@
 <mapper namespace="com.example.springframeworkprojectboard.mapper.RippleMapper">
 
     <insert id="save">
-        insert into spring_board.ripple(`boardId`, `memberId`, `memberName`, `content`, `ip`, `createdAt`)
-        values (#{boardId}, #{memberId}, #{memberName}, #{content}, #{ip}, now())
+        insert into spring_board.ripple(`boardId`, `memberId`, `memberName`, `comment`, `ip`, `createdAt`)
+        values (#{boardId}, #{memberId}, #{memberName}, #{comment}, #{ip}, now())
     </insert>
 
     <select id="findListByBoardId" resultType="com.example.springframeworkprojectboard.domain.Ripple">

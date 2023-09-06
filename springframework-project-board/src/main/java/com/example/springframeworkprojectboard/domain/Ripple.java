@@ -14,7 +14,7 @@ public class Ripple {
     private long boardId;
     private long memberId;
     private String memberName;
-    private String content;
+    private String comment;
     private String ip;
     private LocalDateTime createdAt;
 
