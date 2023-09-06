@@ -62,4 +62,8 @@
         delete from spring_board.board where `id` = #{id}
     </delete>
 
+    <update id="updateRippleCountByBoardId">
+        update spring_board.board set `rippleCnt` = #{rippleCnt} where `id` = #{id}
+    </update>
+
 </mapper>

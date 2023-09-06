@@ -76,4 +76,14 @@ public interface BoardMapper {
      */
     void deleteBoardByBoardId(long boardId) throws SQLException, ClassNotFoundException;
 
+    /**
+     * 게시글 번호로 댓글 개수 업데이트
+     * @param boardId
+     * @param rippleCnt
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    boolean updateRippleCountByBoardId(long boardId, int rippleCnt) throws SQLException, ClassNotFoundException;
+
 }
