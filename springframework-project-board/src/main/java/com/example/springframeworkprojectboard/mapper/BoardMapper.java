@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface BoardMapper {
@@ -78,12 +79,9 @@ public interface BoardMapper {
 
     /**
      * 게시글 번호로 댓글 개수 업데이트
-     * @param boardId
-     * @param rippleCnt
-     * @return
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    boolean updateRippleCountByBoardId(long boardId, int rippleCnt) throws SQLException, ClassNotFoundException;
+    void updateRippleCountByBoardId(Map<String, Object> params) throws SQLException, ClassNotFoundException;
 
 }

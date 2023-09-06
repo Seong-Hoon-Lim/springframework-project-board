@@ -9,7 +9,9 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,8 +30,15 @@ public class RippleServiceImpl implements RippleService {
         rippleMapper.save(ripple);
         //댓글 갯수 조회 및 업데이트
         int rippleCount = rippleMapper.findRippleCountByBoardId(ripple.getBoardId());
-        boardMapper.updateRippleCountByBoardId(ripple.getBoardId(), rippleCount);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("rippleCnt", rippleCount);
+        params.put("id", ripple.getBoardId());
+
+        boardMapper.updateRippleCountByBoardId(params);
     }
+
+
 
     @Override
     public List<RippleDto> getRippleList(long boardId) throws Exception {
@@ -49,7 +58,7 @@ public class RippleServiceImpl implements RippleService {
         rippleMapper.deleteRippleByRippleId(rippleId);
         //댓글 갯수 조회 및 업데이트
         int rippleCount = rippleMapper.findRippleCountByBoardId(boardId);
-        boardMapper.updateRippleCountByBoardId(boardId, rippleCount);
+//        boardMapper.updateRippleCountByBoardId(boardId, rippleCount);
 
     }
 }
