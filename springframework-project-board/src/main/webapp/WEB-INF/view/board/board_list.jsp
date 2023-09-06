@@ -16,10 +16,9 @@
     <title>AeBong's Board</title>
     <script type="text/javascript">
         function checkForm() {
-            <%--if (${sessionMemberId == null}) {--%>
-            <%--    alert("로그인 해주세요.");--%>
-            <%--    location.href = "/member/login";--%>
-            <%--}--%>
+            if (${sessionScope.sessionMemberAccount == null}) {
+                alert("로그인 해주세요.");
+            }
             location.href = "/board/board_register";
         }
     </script>
@@ -92,10 +91,10 @@
                             <c:forEach var="dto" items="${response.dtoList}">
                                 <tr>
                                     <th scope="row">${startNo}</th>
-                                    <td><a href="/board/board_view?boardId=${dto.id}&${requestDto.link}" class="text-decoration-none"
-                                           data-tno="${dto.id}">
-                                        <c:out value="${dto.title}" />
-                                    </a></td>
+                                    <td>
+                                        <a href="/board/board_view?boardId=${dto.id}&${requestDto.link}" class="text-decoration-none" data-tno="${dto.id}"><c:out value="${dto.title}" /></a>
+                                        <c:if test="${dto.rippleCnt > 0}">(${dto.rippleCnt})</c:if>
+                                    </td>
                                     <td>${dto.memberName}</td>
                                     <td>${dto.createdAt}</td>
                                     <td>${dto.updatedAt}</td>

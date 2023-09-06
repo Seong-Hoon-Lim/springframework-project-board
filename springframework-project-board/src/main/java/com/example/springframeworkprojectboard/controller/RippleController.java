@@ -8,10 +8,13 @@ import lombok.extern.log4j.Log4j2;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -26,6 +29,7 @@ public class RippleController {
     public @ResponseBody String createRipple(@ModelAttribute RippleDto rippleDto, HttpServletRequest req) {
         log.info("RippleController: POST - createRipple()");
         HttpSession session = req.getSession();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
         JSONObject json = new JSONObject();
 
         rippleDto.setMemberId((Long) session.getAttribute("sessionMemberId"));
@@ -42,29 +46,37 @@ public class RippleController {
                 json.put("message", "로그인이 필요합니다.");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception occurred: ", e);
             json.put("result", "false");
             json.put("message", "댓글 등록에 실패했습니다.");
         }
-
-        return json.toJSONString();
+        String jsonStr = json.toJSONString();
+        log.info("Generated JSON string: {}", jsonStr);
+        return jsonStr;
     }
 
     @GetMapping("/ripple_list")
-    public @ResponseBody String ListRipples(Long boardId, HttpServletRequest req) {
+    @ResponseBody
+    public String ListRipples(Long boardId, HttpServletRequest req) {
         log.info("RippleController: GET - ListRipples()");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
         JSONArray jsonArray = new JSONArray();
         try {
             List<RippleDto> rippleList = rippleService.getRippleList(boardId);
+            log.info("RippleController: rippleList - {}", rippleList);
             for (RippleDto ripple : rippleList) {
                 JSONObject json = new JSONObject();
 
                 json.put("id", ripple.getId());
                 json.put("boardId", ripple.getBoardId());
                 json.put("memberName", ripple.getMemberName());
-                json.put("content", ripple.getContent());
+                json.put("comment", ripple.getComment());
                 json.put("ip", ripple.getIp());
-                json.put("createAt", ripple.getCreatedAt());
+
+                String formattedDateTime = ripple.getCreatedAt().format(formatter); // 날짜 형식 변경
+                json.put("createdAt", formattedDateTime);
+
                 if (ripple.getMemberName().equals((String) req.getSession().getAttribute("sessionMemberAccount"))) {
                     json.put("login", true);
                 } else {
@@ -76,7 +88,9 @@ public class RippleController {
             e.printStackTrace();
             log.error("에러발생: ", e);
         }
-        return jsonArray.toJSONString();
+        String jsonStr = jsonArray.toJSONString();
+        log.info("Generated JSON string: {}", jsonStr);
+        return jsonStr;
     }
 
     @PostMapping("/ripple_remove")

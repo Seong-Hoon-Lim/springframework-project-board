@@ -42,7 +42,7 @@ CREATE TABLE spring_board.ripple
     `boardId`    BIGINT      NOT NULL,
     `memberId`   BIGINT      NOT NULL,
     `memberName` VARCHAR(10) NOT NULL,
-    `content`    TEXT        NOT NULL,
+    `comment`    TEXT        NOT NULL,
     `ip`         VARCHAR(20),
     `createdAt`  DATETIME    NOT NULL DEFAULT now(),
     PRIMARY KEY (`id`),

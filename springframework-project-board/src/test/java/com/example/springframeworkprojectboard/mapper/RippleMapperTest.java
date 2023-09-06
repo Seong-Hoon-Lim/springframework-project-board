@@ -31,7 +31,7 @@ class RippleMapperTest {
                 .boardId(1)
                 .memberId(1)
                 .memberName("hooney")
-                .content("hot coffee very cold!")
+                .comment("hot coffee very cold!")
                 .ip("127.0.0.1")
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -56,7 +56,7 @@ class RippleMapperTest {
             assertTrue(ripple.getBoardId() > 0);
             assertTrue(ripple.getMemberId() > 0);
             assertNotNull(ripple.getMemberName());
-            assertNotNull(ripple.getContent());
+            assertNotNull(ripple.getComment());
             assertNotNull(ripple.getIp());
             assertNotNull(ripple.getCreatedAt());
         });
