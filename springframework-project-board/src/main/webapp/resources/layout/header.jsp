@@ -29,7 +29,7 @@
                                 <li class="nav-item"><a class="nav-link" href="<c:url value="/member/logout"/>">로그아웃 </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="<c:url value="/member/member_view?memberId=${sessionScope.memberId}" />">마이페이지</a>
+                                    <a class="nav-link" href="<c:url value="/member/member_view?memberId=${sessionScope.sessionMemberId}" />">마이페이지</a>
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href='<c:url value="/board/board_list"/>'>게시판</a></li>
                             </c:otherwise>
