@@ -18,8 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/board")
@@ -30,7 +28,10 @@ public class BoardController {
     private final BoardServiceImpl boardService;
 
     @GetMapping("/board_register")
-    public String showRegisterForm() {
+    public String showRegisterForm(HttpServletRequest req) {
+        if (req.getSession().getAttribute("sessionMemberAccount") == null ) {
+            return "redirect:/board/board_list";
+        }
         return "board/board_register";
     }
 
@@ -48,8 +49,9 @@ public class BoardController {
                               HttpServletRequest request,
                               Model model) {
         log.info("BoardController: POST - createBoard()");
-        boardDto.setMemberId(1);
-        boardDto.setMemberName("hooney");
+        HttpSession session = request.getSession();
+        boardDto.setMemberId((Long) session.getAttribute("sessionMemberId"));
+        boardDto.setMemberName((String) session.getAttribute("sessionMemberAccount"));
         boardDto.setIp(request.getRemoteAddr());
         model.addAttribute("board", boardDto);
         log.info("BoardController: board - {}", boardDto);
@@ -63,20 +65,6 @@ public class BoardController {
             log.error("에러 내용: ", e);
             e.printStackTrace();
         }
-//        try {
-//            HttpSession session = request.getSession();
-//            boardDto.setMemberId(Long.parseLong((String) session.getAttribute("sessionMemberId")));
-//            boardDto.setMemberName((String) session.getAttribute("sessionMemberName"));
-//            boardDto.setMemberId(1);
-//            boardDto.setMemberName("hooney");
-//            boardDto.setIp(request.getRemoteAddr());
-//            log.info("BoardController: board - {}", boardDto);
-//            model.addAttribute("board", boardDto);
-//            return "redirect:/board/board_list";
-//        } catch (Exception e) {
-//            log.error("에러 내용: ", e);
-//            e.printStackTrace();
-//        }
         return "redirect:/board/board_list";
     }
 
@@ -123,8 +111,9 @@ public class BoardController {
                               @RequestParam("addImage") MultipartFile file,
                               HttpServletRequest request, Model model) {
         log.info("BoardController: POST - modifyBoard()");
-        boardDto.setMemberId(1);
-        boardDto.setMemberName("hooney");
+        HttpSession session = request.getSession();
+        boardDto.setMemberId((Long) session.getAttribute("sessionMemberId"));
+        boardDto.setMemberName((String) session.getAttribute("sessionMemberAccount"));
         boardDto.setIp(request.getRemoteAddr());
         if (!file.isEmpty()) {
             boardDto.setFileName(file.getOriginalFilename());
@@ -132,22 +121,11 @@ public class BoardController {
         }
         try {
             boardService.modifyBoard(boardDto, file);
+            model.addAttribute("board", boardDto);
         } catch (Exception e) {
             log.error("에러 내용: ", e);
             e.printStackTrace();
         }
-//        try {
-//            HttpSession session = request.getSession();
-//            boardDto.setMemberId(Long.parseLong((String) session.getAttribute("sessionMemberId")));
-//            boardDto.setMemberName((String) session.getAttribute("sessionMemberName"));
-//            boardDto.setIp(request.getRemoteAddr());
-//            model.addAttribute("boardId", boardDto.getId());
-//            boardService.modifyBoard(boardDto);
-//            return "redirect:/board/board_view";
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         return "redirect:/board/board_list";
 
     }
