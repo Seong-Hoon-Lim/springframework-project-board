@@ -38,17 +38,17 @@ CREATE TABLE spring_board.board
 
 CREATE TABLE spring_board.ripple
 (
-    `id`          BIGINT      NOT NULL AUTO_INCREMENT,
-    `board_id`    BIGINT      NOT NULL,
-    `member_id`   BIGINT      NOT NULL,
-    `member_name` VARCHAR(10) NOT NULL,
-    `content`     TEXT        NOT NULL,
-    `ip`          VARCHAR(20),
-    `created_at`  DATETIME    NOT NULL DEFAULT now(),
+    `id`         BIGINT      NOT NULL AUTO_INCREMENT,
+    `boardId`    BIGINT      NOT NULL,
+    `memberId`   BIGINT      NOT NULL,
+    `memberName` VARCHAR(10) NOT NULL,
+    `content`    TEXT        NOT NULL,
+    `ip`         VARCHAR(20),
+    `createdAt`  DATETIME    NOT NULL DEFAULT now(),
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`board_id`) REFERENCES spring_board.board (`id`)
+    FOREIGN KEY (`boardId`) REFERENCES spring_board.board (`id`)
         ON DELETE CASCADE,
-    FOREIGN KEY (`member_id`) REFERENCES spring_board.`member` (`id`)
+    FOREIGN KEY (`memberId`) REFERENCES spring_board.`member` (`id`)
         ON DELETE CASCADE
 ) DEFAULT CHARSET = UTF8;
 
