@@ -2,6 +2,7 @@ package com.example.springframeworkprojectboard.controller;
 
 import com.example.springframeworkprojectboard.dto.MemberDto;
 import com.example.springframeworkprojectboard.service.MemberServiceImpl;
+import com.example.springframeworkprojectboard.service.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -21,6 +22,7 @@ import java.util.Objects;
 public class MemberController {
 
     private final MemberServiceImpl memberService;
+    private final TokenProvider tokenProvider;
 
     @PostMapping(value = "/checkAccount")
     public void checkDuplicateAccount(HttpServletRequest req, HttpServletResponse resp) {
@@ -125,14 +127,27 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(HttpServletRequest req, Model model) {
+    public String login(HttpServletRequest req, HttpServletResponse res, Model model) { // HttpServletResponse res 추가
         log.info("MemberController: POST - login()");
         try {
             String account = req.getParameter("account");
             MemberDto memberDto = memberService.getMember(account);
-            if ((String) req.getSession().getAttribute("sessionMemberAccount") == null) {
+
+            // 토큰 생성
+            String token = tokenProvider.generateToken(memberDto);
+
+            // 응답 헤더에 토큰을 담는다.
+            res.setHeader("Authorization", "Bearer " + token);
+
+            // 토큰 유효성 검증
+            String verifiedAccount = tokenProvider.validateToken(token);
+
+            if(verifiedAccount.equals(account)) {
+                // 세션에 다른 사용자 정보를 저장한다.
                 req.getSession().setAttribute("sessionMemberId", memberDto.getId());
                 req.getSession().setAttribute("sessionMemberAccount", account);
+            } else {
+                return "member/login"; // 유효하지 않은 토큰이므로 로그인 페이지로 리다이렉트
             }
         } catch (Exception e) {
             e.printStackTrace();
