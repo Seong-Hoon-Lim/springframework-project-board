@@ -130,12 +130,10 @@ public class MemberController {
         try {
             String account = req.getParameter("account");
             MemberDto memberDto = memberService.getMember(account);
-            String name = memberDto.getName();
             if ((String) req.getSession().getAttribute("sessionMemberAccount") == null) {
+                req.getSession().setAttribute("sessionMemberId", memberDto.getId());
                 req.getSession().setAttribute("sessionMemberAccount", account);
-                req.getSession().setAttribute("sessionMemberName", name);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             return "member/login";
