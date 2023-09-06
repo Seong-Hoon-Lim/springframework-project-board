@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springframeworkprojectboard.mapper.RippleMapper">
+
+    <insert id="save">
+        insert into spring_board.ripple(`boardId`, `memberId`, `memberName`, `content`, `ip`, `createdAt`)
+        values (#{boardId}, #{memberId}, #{memberName}, #{content}, #{ip}, now())
+    </insert>
+
+    <select id="findListByBoardId" resultType="com.example.springframeworkprojectboard.domain.Ripple">
+        select * from spring_board.ripple where `boardId` = #{boardId}
+    </select>
+
+    <select id="findBoardByRippleId" resultType="java.lang.Long">
+        select `boardId` from spring_board.ripple where `id` = #{id}
+    </select>
+
+    <select id="findRippleCountByBoardId" resultType="int">
+        select count(*) from spring_board.ripple where `boardId` = #{boardId}
+    </select>
+
+    <delete id="deleteRippleByRippleId">
+        delete from spring_board.ripple where `id` = #{id}
+    </delete>
+
+</mapper>
