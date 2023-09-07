@@ -131,7 +131,8 @@ public class MemberController {
         log.info("MemberController: POST - login()");
         try {
             String account = req.getParameter("account");
-            MemberDto memberDto = memberService.getMember(account);
+            String password = req.getParameter("password");
+            MemberDto memberDto = memberService.authenticateMember(account, password);
 
             // 토큰 생성
             String token = tokenProvider.generateToken(memberDto);

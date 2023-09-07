@@ -1,5 +1,6 @@
 package com.example.springframeworkprojectboard.service;
 
+import com.example.springframeworkprojectboard.config.util.PasswordEncryptionUtil;
 import com.example.springframeworkprojectboard.domain.Member;
 import com.example.springframeworkprojectboard.dto.MemberDto;
 import com.example.springframeworkprojectboard.mapper.MemberMapper;
@@ -25,6 +26,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void registerMember(MemberDto memberDto) throws Exception {
         log.info("MemberService: registerMember()");
+        memberDto.setPassword(PasswordEncryptionUtil.encrypt(memberDto.getPassword()));
         Member member = mapper.map(memberDto, Member.class);
         memberMapper.save(member);
     }
@@ -37,15 +39,21 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDto getMember(String account) throws Exception {
-        log.info("MemberService: getMember(account)");
+    public MemberDto authenticateMember(String account, String rawPassword) throws Exception {
+        log.info("MemberService: authenticateMember()");
         Member member = memberMapper.findMemberByAccount(account);
-        return mapper.map(member, MemberDto.class);
+
+        if (member != null && PasswordEncryptionUtil.matches(rawPassword, member.getPassword())) {
+            return mapper.map(member, MemberDto.class);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public void modifyMember(MemberDto memberDto) throws Exception {
         log.info("MemberService: modifyMember()");
+        memberDto.setPassword(PasswordEncryptionUtil.encrypt(memberDto.getPassword()));
         Member member = mapper.map(memberDto, Member.class);
         memberMapper.update(member);
     }
