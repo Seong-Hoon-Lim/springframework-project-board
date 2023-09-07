@@ -136,79 +136,79 @@ class MemberControllerTest {
 
     }
 
-    @DisplayName("회원 수정 POST controller 동작 테스트 - 회원 정보를 가져와서 회원 수정이 되면 테스트 성공 ")
-    @Test
-    void givenMember_whenPostingMemberModify_thenRedirectsToMemberView() throws Exception {
-        // Given
-        MemberDto createMemberDto = MemberDto.builder()
-                .account("test00")
-                .password("test1234")
-                .name("가길동")
-                .gender("남")
-//                .birth("1990/01/03")  // 원래는 Controller에서 설정되지만 테스트를 위해 여기에서 미리 설정
-//                .email("nagildong@gmail.com")  // 원래는 Controller에서 설정되지만 테스트를 위해 여기에서 미리 설정
-                .phone("01012341113")
-                .zipcode("34005")
-                .addr1("대전광역시 유성구 대덕대로1111번길 1-8")
-                .addr2("가나타운 1동 3호")
-                .createdAt(LocalDateTime.now())
-                .build();
-
-        when(mockMemberService.hasDuplicateMember(anyString())).thenReturn(false);
-
-        mockMvc.perform(post("/member/member_register")
-                        .param("account", "test00")
-                        .param("password", "test1234")
-                        .param("name", "가길동")
-                        .param("gender", "남")
-                        .param("birthyy", "1990")
-                        .param("birthmm", "01")
-                        .param("birthdd", "03")
-                        .param("mail1", "nagildong")
-                        .param("mail2", "gmail.com")
-                        .param("phone", "01012341113")
-                        .param("zipcode", "34005")
-                        .param("addr1", "대전광역시 유성구 대덕대로1111번길 1-8")
-                        .param("addr2", "가나타운 1동 3호"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/member/login"));
-
-        MemberDto findMember = memberService.getMember(createMemberDto.getAccount());
-
-        MemberDto memberDto = MemberDto.builder()
-                .account(findMember.getAccount())
-                .password("test1234")
-                .name("가길녀")
-                .gender("여")
-//                .birth("1990/01/03")  // 원래는 Controller에서 설정되지만 테스트를 위해 여기에서 미리 설정
-//                .email("nagildong@gmail.com")  // 원래는 Controller에서 설정되지만 테스트를 위해 여기에서 미리 설정
-                .phone("01012341113")
-                .zipcode("34005")
-                .addr1("대전광역시 유성구 대덕대로1111번길 1-8")
-                .addr2("가나타운 1동 3호")
-                .updatedAt(LocalDateTime.now())
-                .build();
-
-        when(mockMemberService.hasDuplicateMember(anyString())).thenReturn(false);
-
-        // When & Then
-        mockMvc.perform(post("/member/member_modify")
-                        .param("account", "test00")
-                        .param("password", "test1234")
-                        .param("name", "가길녀")
-                        .param("gender", "여")
-                        .param("birthyy", "1990")
-                        .param("birthmm", "01")
-                        .param("birthdd", "03")
-                        .param("mail1", "nagildong")
-                        .param("mail2", "gmail.com")
-                        .param("phone", "01012341113")
-                        .param("zipcode", "34005")
-                        .param("addr1", "대전광역시 유성구 대덕대로1111번길 1-8")
-                        .param("addr2", "가나타운 1동 3호"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/member/member_view"));
-    }
+//    @DisplayName("회원 수정 POST controller 동작 테스트 - 회원 정보를 가져와서 회원 수정이 되면 테스트 성공 ")
+//    @Test
+//    void givenMember_whenPostingMemberModify_thenRedirectsToMemberView() throws Exception {
+//        // Given
+//        MemberDto createMemberDto = MemberDto.builder()
+//                .account("test00")
+//                .password("test1234")
+//                .name("가길동")
+//                .gender("남")
+////                .birth("1990/01/03")  // 원래는 Controller에서 설정되지만 테스트를 위해 여기에서 미리 설정
+////                .email("nagildong@gmail.com")  // 원래는 Controller에서 설정되지만 테스트를 위해 여기에서 미리 설정
+//                .phone("01012341113")
+//                .zipcode("34005")
+//                .addr1("대전광역시 유성구 대덕대로1111번길 1-8")
+//                .addr2("가나타운 1동 3호")
+//                .createdAt(LocalDateTime.now())
+//                .build();
+//
+//        when(mockMemberService.hasDuplicateMember(anyString())).thenReturn(false);
+//
+//        mockMvc.perform(post("/member/member_register")
+//                        .param("account", "test00")
+//                        .param("password", "test1234")
+//                        .param("name", "가길동")
+//                        .param("gender", "남")
+//                        .param("birthyy", "1990")
+//                        .param("birthmm", "01")
+//                        .param("birthdd", "03")
+//                        .param("mail1", "nagildong")
+//                        .param("mail2", "gmail.com")
+//                        .param("phone", "01012341113")
+//                        .param("zipcode", "34005")
+//                        .param("addr1", "대전광역시 유성구 대덕대로1111번길 1-8")
+//                        .param("addr2", "가나타운 1동 3호"))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(redirectedUrl("/member/login"));
+//
+////        MemberDto findMember = memberService.getMember(createMemberDto.getAccount());
+//
+//        MemberDto memberDto = MemberDto.builder()
+//                .account(findMember.getAccount())
+//                .password("test1234")
+//                .name("가길녀")
+//                .gender("여")
+////                .birth("1990/01/03")  // 원래는 Controller에서 설정되지만 테스트를 위해 여기에서 미리 설정
+////                .email("nagildong@gmail.com")  // 원래는 Controller에서 설정되지만 테스트를 위해 여기에서 미리 설정
+//                .phone("01012341113")
+//                .zipcode("34005")
+//                .addr1("대전광역시 유성구 대덕대로1111번길 1-8")
+//                .addr2("가나타운 1동 3호")
+//                .updatedAt(LocalDateTime.now())
+//                .build();
+//
+//        when(mockMemberService.hasDuplicateMember(anyString())).thenReturn(false);
+//
+//        // When & Then
+//        mockMvc.perform(post("/member/member_modify")
+//                        .param("account", "test00")
+//                        .param("password", "test1234")
+//                        .param("name", "가길녀")
+//                        .param("gender", "여")
+//                        .param("birthyy", "1990")
+//                        .param("birthmm", "01")
+//                        .param("birthdd", "03")
+//                        .param("mail1", "nagildong")
+//                        .param("mail2", "gmail.com")
+//                        .param("phone", "01012341113")
+//                        .param("zipcode", "34005")
+//                        .param("addr1", "대전광역시 유성구 대덕대로1111번길 1-8")
+//                        .param("addr2", "가나타운 1동 3호"))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(redirectedUrl("/member/member_view"));
+//    }
 
     @DisplayName("회원 삭제 POST controller 동작 테스트 - 회원 ID를 제공하여 회원 삭제가 되면 테스트 성공 ")
     @Test

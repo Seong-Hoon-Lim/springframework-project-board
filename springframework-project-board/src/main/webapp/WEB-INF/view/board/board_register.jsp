@@ -30,11 +30,10 @@
                         <form name="form_register" action="/board/board_register" class="form-horizontal" method="post"
                               onsubmit="return checkForm()" enctype="multipart/form-data">
                             <div class="form-group row">
-                                <input hidden="hidden" name="memberId" value=1>
+                                <input hidden="hidden" name="memberId" value="1">
                                 <label class="col-sm-2 control-label">작성자</label>
                                 <div class="col-sm-3">
-                                    <input name="memberName" type="text" class="form-control" value="hooney"
-                                           placeholder="name" required readonly>
+                                    <input name="memberName" type="text" class="form-control" placeholder="${sessionScope.sessionMemberAccount}" required readonly>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -70,23 +69,7 @@
                             <c:forEach items="${errors}" var="error">
                             serverValidResult['${error.getField()}'] = '${error.defaultMessage}';
                             </c:forEach>
-                            console.log(serverValidResult)
-
-                            // document.querySelector('.form-horizontal').addEventListener('submit', function (e) {
-                            //     e.preventDefault(); // 폼 제출을 막습니다.
-                            //     const title = document.querySelector('input[name="title"]').value;
-                            //     const content = document.querySelector('textarea[name="content"]').value;
-                            //     const memberId = document.querySelector('input[name="memberId"]').value;
-                            //     const memberName = document.querySelector('input[name="memberName"]').value;
-                            //     const fileName = document.querySelector('input[name="addImage"]').value;
-                            //     console.log('Title:', title);
-                            //     console.log('Content:', content);
-                            //     console.log('memberId:', memberId);
-                            //     console.log('memberName:', memberName);
-                            //     console.log('fileName:', fileName);
-                            // });
-
-
+                            console.log(serverValidResult);
                         </script>
                     </div>
                 </div>

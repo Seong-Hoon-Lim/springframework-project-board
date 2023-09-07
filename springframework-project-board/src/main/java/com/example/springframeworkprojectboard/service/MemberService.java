@@ -33,7 +33,7 @@ public interface MemberService {
      * @return
      * @throws Exception
      */
-    MemberDto getMember(String account) throws  Exception;
+    MemberDto authenticateMember(String account, String password) throws  Exception;
 
     /**
      * 회원 수정 기능
